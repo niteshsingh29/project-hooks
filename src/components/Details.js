@@ -1,9 +1,9 @@
 import { useState, useEffect } from "react";
 import firebase from "../firebase/index";
 import "bootstrap/dist/css/bootstrap.css";
-function Details() {
+function Details(props) {
   const [users, setUser] = useState([]);
-  const [isLoaded, setLoaded] = useState(true);
+
   useEffect(() => {
     firebase
       .collection("users")
@@ -14,12 +14,12 @@ function Details() {
         });
         console.log(users);
         setUser(users);
-        setLoaded(false);
       });
   }, []);
-  const handleDelete = (users) => {
-    console.log(users);
-  };
+
+  //   const handleDelete = (users) => {
+  //     console.log(users);
+  //   };
 
   return (
     <div className="container">
@@ -38,7 +38,6 @@ function Details() {
           <tbody>
             {users.map((user, index) => (
               <tr>
-                {isLoaded && <h3>Please wait Loading...</h3>}
                 <th scope="row">{index + 1}</th>
                 <td>{user.Name}</td>
                 <td>{user.Designation}</td>
@@ -48,9 +47,9 @@ function Details() {
             ))}
           </tbody>
         </table>
-        <button class="btn btn-danger" onClick={(e) => handleDelete(users)}>
+        {/* <button class="btn btn-danger" onClick={(e) => handleDelete(users)}>
           Delete
-        </button>
+        </button> */}
       </div>
     </div>
   );
