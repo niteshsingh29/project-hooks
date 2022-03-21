@@ -5,17 +5,15 @@ function Details(props) {
   const [users, setUser] = useState([]);
 
   useEffect(() => {
-    firebase
-      .collection("users")
-      .get()
-      .then((snapshot) => {
-        const users = snapshot.docs.map((doc) => {
-          return doc.data();
-        });
-        console.log(users);
-        setUser(users);
+    firebase.collection("users").get().then((snapshot) => {
+      const users = snapshot.docs.map((doc) => {
+        return doc.data();
       });
-  }, []);
+      console.log(users);
+      setUser(users);
+    });
+    props.setIsAddUser(false);
+  }, [props.isAddUser]);
 
   //   const handleDelete = (users) => {
   //     console.log(users);
