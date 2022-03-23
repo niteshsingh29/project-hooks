@@ -3,17 +3,23 @@ import firebase from "../firebase/index";
 import "bootstrap/dist/css/bootstrap.css";
 function Details(props) {
   const [users, setUser] = useState([]);
+  console.log(props);
 
   useEffect(() => {
-    firebase.collection("users").get().then((snapshot) => {
-      const users = snapshot.docs.map((doc) => {
-        return doc.data();
+    firebase
+      .collection("users")
+      .onSnapshot((snapshot) => {
+        const users = snapshot.docs.map((doc) => {
+          return doc.data();
+        });
+        console.log(users);
+        setUser(users);
+        props.setKabbadi(false);
+        props.setSwimming(false);
+        props.setReading(false);
       });
-      console.log(users);
-      setUser(users);
-    });
-    props.setIsAddUser(false);
-  }, [props.isAddUser]);
+    
+  }, []);
 
   //   const handleDelete = (users) => {
   //     console.log(users);
@@ -31,6 +37,8 @@ function Details(props) {
               <th scope="col">Designation</th>
               <th scope="col">Company</th>
               <th scope="col">Location</th>
+              <th scope="col">Gender</th>
+              <th scope="col">Hobbies</th>
             </tr>
           </thead>
           <tbody>
@@ -41,6 +49,10 @@ function Details(props) {
                 <td>{user.Designation}</td>
                 <td>{user.Company}</td>
                 <td>{user.Location}</td>
+                {user.radioGender ? <td>Male</td> : <td>Female</td>}
+                {user.kabbadi ? <td>Kabbadi</td> : <td></td>}
+                {user.Swimming ? <td>Swimming</td> : <td></td>}
+                {user.Reading ? <td>Reading</td> : <td></td>}
               </tr>
             ))}
           </tbody>
